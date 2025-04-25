@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mood Manager App</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&family=Noto+Sans+SC:wght@300;400;500;600&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --main-font: 'Poppins', 'Noto Sans SC', sans-serif;
+            --primary-color: #6366f1; /* Modern indigo */
+            --secondary-color: #8b5cf6; /* Modern purple */
+            --accent-color: #22d3ee; /* Modern cyan */
+            --text-color: #ffffff;
+            --bg-color: #111827;
+            --border-radius: 16px;
+            --card-bg: rgba(255, 255, 255, 0.08);
+            --shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: var(--main-font);
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 24px;
+            background: linear-gradient(145deg, var(--bg-color), #1e293b);
+            color: var(--text-color);
+            min-height: 100vh;
+            line-height: 1.6;
+            font-weight: 300;
+        }
+
+        .header {
+            text-align: center;
+            padding: 60px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header:after {
+            content: '';
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            width: 80px;
+            height: 4px;
+            background: var(--accent-color);
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .header h1 {
+            font-size: 3.2em;
+            margin-bottom: 8px;
+            font-weight: 600;
+            letter-spacing: -0.5px;
+            background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .download-btn {
+            background: linear-gradient(to right, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 14px 36px;
+            border: none;
+            border-radius: 50px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: var(--main-font);
+            font-weight: 500;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 25px -5px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        section {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            padding: 32px;
+            margin: 32px 0;
+            border-radius: var(--border-radius);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 24px;
+            margin-top: 24px;
+        }
+
+        .feature-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            background: rgba(255, 255, 255, 0.03);
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+
+        .feature-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+            color: var(--accent-color);
+        }
+
+        .screenshots {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+            padding: 10px 0;
+        }
+
+        .screenshot-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--border-radius);
+            transition: transform 0.3s ease;
+            box-shadow: var(--shadow);
+            aspect-ratio: 9/19;
+        }
+
+        .screenshot-item:hover {
+            transform: scale(1.03);
+        }
+
+        .screenshot-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            border-radius: var(--border-radius);
+            transition: filter 0.3s ease;
+        }
+
+        .screenshot-item:hover img {
+            filter: brightness(1.1);
+        }
+
+        .screenshot-caption {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            padding: 16px 12px;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .testimonial-item {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: var (--border-radius);
+            padding: 24px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+
+        .testimonial-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.2);
+        }
+
+        .testimonial-item::before {
+            content: "";
+            position: absolute;
+            top: 10px;
+            left: 20px;
+            font-size: 4rem;
+            color: var(--accent-color);
+            opacity: 0.2;
+            line-height: 1;
+        }
+
+        .testimonial-text {
+            font-style: italic;
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+            padding-left: 12px;
+        }
+
+        section h2 {
+            margin-bottom: 24px;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+            display: inline-block;
+            position: relative;
+        }
+
+        section h2:after {
+            content: "";
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 40%;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .lang-switch {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+        }
+
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: none;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-family: var(--main-font);
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        /* Hide content elements based on language */
+        body:not(.zh) .zh-content {
+            display: none;
+        }
+        
+        body.zh .en-content {
+            display: none;
+        }
+        
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 2.5em;
+            }
+            section {
+                padding: 24px;
+            }
+            .feature-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #download-message, #download-message-zh {
+            margin-top: 16px;
+            font-size: 14px;
+            display: none;
+            transition: opacity 0.3s ease;
+        }
+
+        /* Modern scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 10px;
+        }
+
+        /* Loading spinner for download button */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            margin-right: 8px;
+            border: 2px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="lang-switch">
+        <button class="lang-btn" onclick="toggleLanguage()">
+            <span class="en-content">中文</span>
+            <span class="zh-content">English</span>
+        </button>
+    </div>
+
+    <div class="header">
+        <h1 class="en-content">Mood Manager</h1>
+        <h1 class="zh-content">心情管理器</h1>
+        <p class="en-content">Track, analyze, and improve your daily mood</p>
+        <p class="zh-content">追踪、分析并改善您的日常情绪</p>
+    </div>
+
+    <section>
+        <h2 class="en-content">Features</h2>
+        <h2 class="zh-content">功能特点</h2>
+        <div class="feature-grid">
+            <div class="feature-item">
+                <div class="feature-icon">📊</div>
+                <h3 class="en-content">Daily Tracking</h3>
+                <h3 class="zh-content">日常追踪</h3>
+                <p class="en-content">Log your emotions throughout the day</p>
+                <p class="zh-content">记录您一整天的情绪变化</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🔍</div>
+                <h3 class="en-content">Pattern Analysis</h3>
+                <h3 class="zh-content">模式分析</h3>
+                <p class="en-content">Discover your emotional patterns</p>
+                <p class="zh-content">发现您的情绪模式</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">💡</div>
+                <h3 class="en-content">Smart Recommendations</h3>
+                <h3 class="zh-content">智能建议</h3>
+                <p class="en-content">Get personalized insights</p>
+                <p class="zh-content">获取个性化见解</p>
+            </div>
+            
+            <div class="feature-item">
+                <div class="feature-icon">🔒</div>
+                <h3 class="en-content">Privacy First</h3>
+                <h3 class="zh-content">隐私优先</h3>
+                <p class="en-content">Your data stays on your device</p>
+                <p class="zh-content">您的数据保存在设备上</p>
+            </div>
+        </div>
+    </section>
+
+    <section style="text-align: center; padding: 40px 0;">
+        <h2  class="en-content">Download Now</h2>
+        <h2  class="zh-content">立即下载</h2>
+
+        <p class="en-content">Available for Android</p>
+        <p class="zh-content">适用于安卓系统</p>
+
+        <button class="download-btn en-content" onclick="downloadApp()">Download for Android</button>
+        <button class="download-btn zh-content" onclick="downloadApp()">安卓版下载</button>
+        
+        <p id="download-message" class="en-content"></p>
+        <p id="download-message-zh" class="zh-content"></p>
+    </section>
+
+    <section>
+        <h2 class="en-content">App Screenshots</h2>
+        <h2 class="zh-content">应用截图</h2>
+        <div class="screenshots">
+            <div class="screenshot-item">
+                <img src="images/dashboard.png" alt="Dashboard View"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'250\' height=\'500\' viewBox=\'0 0 250 500\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' fill=\'%23999\' font-size=\'14\'%3EDashboard Preview%3C/text%3E%3C/svg%3E'">
+                <div class="screenshot-caption en-content">Dashboard View</div>
+                <div class="screenshot-caption zh-content">仪表板视图</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/tracking.png" alt="Mood Tracking"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'250\' height=\'500\' viewBox=\'0 0 250 500\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' fill=\'%23999\' font-size=\'14\'%3EMood Tracking%3C/text%3E%3C/svg%3E'">
+                <div class="screenshot-caption en-content">Mood Tracking</div>
+                <div class="screenshot-caption zh-content">情绪追踪</div>
+            </div>
+            <div class="screenshot-item">
+                <img src="images/stats.png" alt="Statistics View"
+                    onerror="this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' width=\'250\' height=\'500\' viewBox=\'0 0 250 500\'%3E%3Crect width=\'100%25\' height=\'100%25\' fill=\'%23f0f0f0\'/%3E%3Ctext x=\'50%25\' y=\'50%25\' text-anchor=\'middle\' fill=\'%23999\' font-size=\'14\'%3EStatistics View%3C/text%3E%3C/svg%3E'">
+                <div class="screenshot-caption en-content">Statistics View</div>
+                <div class="screenshot-caption zh-content">统计视图</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="testimonials">
+        <h2 class="en-content">What Users Say</h2>
+        <h2 class="zh-content">用户评价</h2>
+        <div class="testimonials-grid">
+            <div class="testimonial-item">
+                <p class="testimonial-text en-content">"This app has completely changed how I understand my emotions. The patterns it identified helped me make positive life changes."</p>
+                <p class="testimonial-text zh-content">"这款应用完全改变了我理解情绪的方式。它识别出的模式帮助我做出了积极的生活改变。"</p>
+            </div>
+            <div class="testimonial-item">
+                <p class="testimonial-text en-content">"Simple to use but incredibly insightful. The mood tracking has become part of my daily routine."</p>
+                <p class="testimonial-text zh-content">"使用简单但见解深刻。情绪追踪已经成为我日常生活的一部分。"</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        function toggleLanguage() {
+            const body = document.body;
+
+            if (body.classList.contains('zh')) {
+                body.classList.remove('zh');
+                localStorage.setItem('language', 'en');
+                document.documentElement.lang = 'en';
+            } else {
+                body.classList.add('zh');
+                localStorage.setItem('language', 'zh');
+                document.documentElement.lang = 'zh-CN';
+            }
+        }
+
+        // Load saved language preference
+        document.addEventListener('DOMContentLoaded', function () {
+            const savedLanguage = localStorage.getItem('language');
+            if (savedLanguage === 'zh') {
+                document.body.classList.add('zh');
+                document.documentElement.lang = 'zh-CN';
+            } else {
+                document.documentElement.lang = 'en';
+            }
+
+            // Fix for mobile devices - ensure proper touch handling
+            const langBtn = document.querySelector('.lang-btn');
+            if ('ontouchstart' in window) {
+                langBtn.addEventListener('touchend', function (e) {
+                    e.preventDefault();
+                    toggleLanguage();
+                });
+            }
+        });
+
+        // Modern download function with better UX
+        function downloadApp() {
+            const downloadMessage = document.getElementById('download-message');
+            const downloadMessageZh = document.getElementById('download-message-zh');
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            // Show loading message with spinner
+            downloadMessage.style.display = 'block';
+            downloadMessageZh.style.display = 'block';
+            downloadMessage.innerHTML = '<span class="loading"></span> Preparing download...';
+            // downloadMessageZh.innerHTML = '<span class="loading"></span> 正在准备下载...';
+            
+            // Disable button during download
+            downloadButtons.forEach(btn => {
+                btn.disabled = true;
+                btn.style.opacity = '0.7';
+            });
+            
+            setTimeout(() => {
+                try {
+                    const appUrl = 'https://moodmanager.app/download/moodmanager.apk';
+                    
+                    // Create download link
+                    const downloadLink = document.createElement('a');
+                    downloadLink.href = appUrl;
+                    downloadLink.setAttribute('download', 'MoodManager.apk');
+                    downloadLink.click();
+                    
+                    // Update success message
+                    downloadMessage.innerHTML = '✓ Download started! <a href="' + appUrl + '" style="color: var(--accent-color);">Not working? Try again</a>';
+                    // downloadMessageZh.innerHTML = '✓ 下载已开始！<a href="' + appUrl + '" style="color: var(--accent-color);">没有反应？再次尝试</a>';
+                    
+                    // Re-enable button
+                    downloadButtons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                    });
+                } catch (error) {
+                    // Handle errors
+                    downloadMessage.innerHTML = '⚠️ Download failed. Please try again.';
+                    downloadMessageZh.innerHTML = '⚠️ 下载失败。请重试。';
+                    
+                    // Re-enable button
+                    downloadButtons.forEach(btn => {
+                        btn.disabled = false;
+                        btn.style.opacity = '1';
+                    });
+                }
+            }, 1500);
+        }
+        
+        // Detect if the user is on Android or not
+        document.addEventListener('DOMContentLoaded', function() {
+            // ...existing DOMContentLoaded code...
+            
+            // Check if user is on Android device
+            const isAndroid = /Android/i.test(navigator.userAgent);
+            const downloadButtons = document.querySelectorAll('.download-btn');
+            
+            if (isAndroid) {
+                // Set direct Play Store link for Android users if needed
+                downloadButtons.forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        // You could redirect to Play Store instead if the app is published
+                        // window.location.href = 'https://play.google.com/store/apps/details?id=com.moodmanager.app';
+                    });
+                });
+            } else {
+                // Change button text for non-Android users
+                const nonAndroidText = document.createElement('div');
+                nonAndroidText.className = 'en-content';
+                nonAndroidText.style.fontSize = '12px';
+                nonAndroidText.style.marginTop = '10px';
+                nonAndroidText.innerHTML = 'You appear to be on a non-Android device. The app is currently only available for Android.';
+                
+                const nonAndroidTextZh = document.createElement('div');
+                nonAndroidTextZh.className = 'zh-content';
+                nonAndroidTextZh.style.fontSize = '12px';
+                nonAndroidTextZh.style.marginTop = '10px';
+                nonAndroidTextZh.innerHTML = '您似乎不是在安卓设备上。该应用目前仅适用于安卓系统。';
+                
+                if (!isAndroid) {
+                    downloadButtons[0].parentNode.appendChild(nonAndroidText);
+                    downloadButtons[1].parentNode.appendChild(nonAndroidTextZh);
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
